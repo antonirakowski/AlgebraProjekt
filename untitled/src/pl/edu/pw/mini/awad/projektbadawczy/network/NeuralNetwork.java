@@ -108,6 +108,9 @@ public class NeuralNetwork {
         network.layers.get(network.layers.size() - 1).setBiasesFromVector(delta);
 
         //network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, Vector.dot(delta, activations.get(activations.size() - 2)));
+        for(int temp=0; temp<network.edges.size(); ++temp){
+            network.edges.get(network.edges.size() - 1).weights.values.set(temp, Vector.multiplyVector(delta, activations.get(activations.size() - 2)));
+        }
         //piece of shit above is wrong
 
 
@@ -126,6 +129,9 @@ public class NeuralNetwork {
 
             //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTO 0 ????
             //edges.get(edges.size() - l - 1).weights.values.set(0, Vector.dot(delta , activations.get(activations.size() - l - 2)) );
+            for(int temp=0;temp<edges.size();++temp){
+                edges.get(edges.size() - l - 1).weights.values.set(0, Vector.multiplyVector(delta , activations.get(activations.size() - l - 2)) );
+            }
         }
 
         return network;
