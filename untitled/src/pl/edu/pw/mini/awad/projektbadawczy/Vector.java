@@ -22,6 +22,14 @@ public class Vector {
         }
         return new Vector(result);
     }
+    public static Vector addScalar(Double s, Vector v2) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v2.length; i++) {
+            result.add(1 + v2.values.get(i));
+        }
+        return new Vector(result);
+    }
+
 
     public static Vector subtract(Vector v1, Vector v2) {
         if (v1.length != v2.length) {
@@ -53,4 +61,41 @@ public class Vector {
         }
         return new Vector(result);
     }
+    public static Vector exp(Vector v) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v.length; i++) {
+            result.add(Math.exp(v.values.get(i)));
+        }
+        return new Vector(result);
+    }
+    public static Vector divideScalar(Double s ,Vector v) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v.length; i++) {
+            result.add(s/(v.values.get(i)));
+        }
+        return new Vector(result);
+    }
+
+    public static Vector substractScalarLeft(Double scalar, Vector v) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v.length; i++) {
+            result.add(1-(v.values.get(i)));
+
+        }
+        return new Vector(result);
+    }
+    public static Vector multiplyVector(Vector v1, Vector v2) {
+        if (v1.length != v2.length) {
+            throw new IllegalArgumentException("Vectors must have the same length");
+        }
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v1.length; i++) {
+            result.add(v1.values.get(i) * v2.values.get(i));
+        }
+        return new Vector(result);
+    }
+    public String toString() {
+        return values.toString();
+    }
+
 }
