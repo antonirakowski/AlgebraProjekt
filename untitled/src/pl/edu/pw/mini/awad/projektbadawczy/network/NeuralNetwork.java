@@ -7,9 +7,9 @@ import java.util.*;
 
 public class NeuralNetwork {
 
-    private int numLayers;
-    private ArrayList<Layer> layers;
-    private ArrayList<Edges> edges;
+    public int numLayers;
+    public ArrayList<Layer> layers;
+    public ArrayList<Edges> edges;
 
     NeuralNetwork (ArrayList<Integer> sizes, boolean isRandom) {
         numLayers = sizes.size();
