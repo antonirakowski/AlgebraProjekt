@@ -7,6 +7,6 @@ import java.util.Arrays;
 
 public class NetworkDemonstrator {
     public static void main(String[] args) {
-        NeuralNetwork network = new NeuralNetwork(new ArrayList<>(Arrays.asList(new Integer[] {2, 3, 1})));
+        NeuralNetwork network = new NeuralNetwork(new ArrayList<>(Arrays.asList(new Integer[] {2, 3, 1})), true);
     }
 }

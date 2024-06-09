@@ -8,8 +8,4 @@ public class Neuron {
         this.bias = bias;
     }
 
-    public Neuron() {
-        Random random = new Random();
-        this.bias = random.nextDouble();
-    }
 }
