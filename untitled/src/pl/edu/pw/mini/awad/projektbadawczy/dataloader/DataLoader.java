@@ -8,7 +8,7 @@ import java.util.zip.GZIPInputStream;
 
 public class DataLoader {
 
-    public static ArrayList<Vector> readMNIST(InputStream in) throws IOException {
+    public static ArrayList<Vector> readNumbers(InputStream in) throws IOException {
         InputStream gzipStream = new GZIPInputStream(in);
         DataInputStream dataStream = new DataInputStream(gzipStream);
 
@@ -30,5 +30,21 @@ public class DataLoader {
         }
 
         return imageVectors;
+    }
+
+    public static ArrayList<Integer> readLabels(InputStream in) throws IOException {
+        InputStream gzipStream = new GZIPInputStream(in);
+        DataInputStream dataStream = new DataInputStream(gzipStream);
+
+        int magicNumber = dataStream.readInt();
+        int numberOfLabels = dataStream.readInt();
+
+        ArrayList<Integer> labels = new ArrayList<>();
+
+        for (int i = 0; i < numberOfLabels; i++) {
+            labels.add((int) dataStream.readUnsignedByte());
+        }
+
+        return labels;
     }
 }
