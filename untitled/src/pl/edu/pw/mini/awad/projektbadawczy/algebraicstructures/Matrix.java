@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Matrix {
 
     public ArrayList<Vector> values;
-    public Integer rows;
-    public Integer columns;
+    public int rows;
+    public int columns;
 
     public Matrix(ArrayList<Vector> values) {
         this.values = values;

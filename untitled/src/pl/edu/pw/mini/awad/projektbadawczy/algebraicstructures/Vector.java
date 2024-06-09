@@ -1,11 +1,10 @@
 package pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures;
 
 import java.util.ArrayList;
-import java.lang.Integer;
 
 public class Vector {
     public ArrayList<Double> values;
-    public Integer length;
+    public int length;
 
     public Vector(ArrayList<Double> values) {
         this.values = values;
@@ -97,10 +96,10 @@ public class Vector {
         return new Vector(result);
     }
 
-    public static Integer argMax(Vector v) {
+    public static int argMax(Vector v) {
         Double max = Double.NEGATIVE_INFINITY;
-        Integer index = 0;
-        Integer iter = 0;
+        int index = 0;
+        int iter = 0;
         for (Double val : v.values) {
             if (val > max) {
                 max = val;
