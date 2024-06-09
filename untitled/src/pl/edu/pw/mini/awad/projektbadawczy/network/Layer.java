@@ -2,6 +2,7 @@ package pl.edu.pw.mini.awad.projektbadawczy.network;
 
 import java.util.ArrayList;
 import java.util.Random;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Vector;
 
 public class Layer {
     public ArrayList<Neuron> neurons;
@@ -39,4 +40,19 @@ public class Layer {
         }
         return  new Layer(neurons);
     }
+
+    public Vector getBiasesInVector(){
+        ArrayList<Double> biases = new ArrayList<>();
+        for (Neuron neuron : neurons) {
+            biases.add(neuron.bias);
+        }
+        return new Vector(biases);
+    }
+
+    public void setBiasesFromVector(Vector biases){
+        for (int i = 0; i < neurons.size(); i++) {
+            neurons.get(i).bias = biases.values.get(i);
+        }
+    }
+
 }
