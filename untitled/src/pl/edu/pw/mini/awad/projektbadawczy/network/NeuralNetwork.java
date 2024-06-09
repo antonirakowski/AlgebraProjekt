@@ -68,7 +68,7 @@ public class NeuralNetwork {
         return new NeuralNetwork(layers, edgesSet);
     }
 
-    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
+    public void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
         NeuralNetwork result = this.emptyCopy();
         for (TrainingItem trainingItem : trainingItems) {
             result = result.add(backprop(trainingItem));
