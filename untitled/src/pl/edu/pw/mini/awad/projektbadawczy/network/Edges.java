@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Edges {
-
-    final Matrix weights;
+    public final Matrix weights;
 
     public Edges(Layer layer1, Layer layer2) {
         Random random = new Random();
