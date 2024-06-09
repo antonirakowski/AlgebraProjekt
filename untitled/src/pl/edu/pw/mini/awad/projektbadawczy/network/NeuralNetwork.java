@@ -1,10 +1,12 @@
-
-
 package pl.edu.pw.mini.awad.projektbadawczy.network;
 
+import pl.edu.pw.mini.awad.projektbadawczy.MichalS.Sigmoid;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Vector;
 import pl.edu.pw.mini.awad.projektbadawczy.dataloader.TrainingItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NeuralNetwork {
     public ArrayList<Layer> layers;
@@ -51,10 +53,49 @@ public class NeuralNetwork {
 //        }
 //    }
 
-    NeuralNetwork backprop(TrainingItem item) {
+    public NeuralNetwork backprop(TrainingItem item) {
         NeuralNetwork network = this.emptyCopy(); //kopiuje szkielet
 
+        //feedforward
+        Vector activation = item.input;
+        List<Vector> activations = new ArrayList<>();
+        activations.add(item.input);
+        List<Vector> zs = new ArrayList<>();
+
+        for (int i = 0; i < layers.size(); i++) {
+            Vector b = network.layers.get(i).neurons.;
+            Vector w = network.edges.weights.values.get(i);
+            Vector z = Vector.addScalar(Vector.dot(w, activation), b);
+            zs.add(z);
+            activation = Sigmoid.sigmoidDerivativeVector(z);
+            activations.add(activation);
+        }
+
+        // backward pass
+        Vector delta = Vector.multiplyVector(
+                Vector.subtract( activations.get(activations.size() - 1), item.output), // item.output = y
+                sigmoidPrime(zs.get(zs.size() - 1))
+        );
+
+        network.layers.get(network.layers.size() - 1).neurons.get(0).bias = delta.values.get(0);
+        network.edges.weights.get(network.edges.weights.size() - 1).values.get(0).values.set(0, delta.values.get(0) * activations.get(activations.size() - 2).values.get(0));
+
+
+        for (int l = 2; l < network.layers.size(); l++) {
+            Vector z = zs.get(zs.size() - l);
+            Vector sp = sigmoidPrime(z);
+            Vector delta = Vector.multiply(Vector.dot(weights.get(weights.size() - l + 1), delta), sp);
+            //nabla_b . set(nabla_b.size() - l, delta);
+            layers.get(layers.size() - l).neurons.get(0).bias = delta.values.get(0);
+            //nabla_w.set(nabla_w.size() - l, outerProduct(delta, activations.get(activations.size() - l - 1)));
+            edges.weights.get(weights.size() - l).set(0, delta.values.get(0) * activations.get(activations.size() - l - 1).values.get(0));
+        }
+
         return network;
+    }
+
+    private Vector sigmoidPrime(Vector z) {
+        return Vector.multiplyVector(Sigmoid.sigmoidDerivativeVector(z),Vector.substractScalarLeft(1.0, Sigmoid.sigmoidVector(z)));
     }
 
 }
