@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Matrix {
 
     public ArrayList<Vector> values;
-    public Integer rows;
-    public Integer columns;
+    public int rows;
+    public int columns;
 
     public Matrix(ArrayList<Vector> values) {
         this.values = values;
@@ -18,6 +18,10 @@ public class Matrix {
         if (m1.rows != m2.rows || m1.columns != m2.columns) {
             throw new IllegalArgumentException("Matrices must have the same dimensions");
         }
+        System.out.println("m1.rows: " + m1.rows);
+        System.out.println("m1.columns: " + m1.columns);
+        System.out.println("m2.rows: " + m2.rows);
+        System.out.println("m2.columns: " + m2.columns);
         ArrayList<Vector> result = new ArrayList<>();
         for (int i = 0; i < m1.rows; i++) {
             result.add(Vector.add(m1.values.get(i), m2.values.get(i)));

@@ -5,7 +5,7 @@ import java.lang.Integer;
 
 public class Vector {
     public ArrayList<Double> values;
-    public Integer length;
+    public int length;
 
     public Vector(ArrayList<Double> values) {
         this.values = values;
@@ -13,6 +13,12 @@ public class Vector {
     }
 
     public static Vector add(Vector v1, Vector v2) {
+        System.out.println("v1: " + v1.length);
+        System.out.println("v2: " + v2.length);
+        if(v1.length <12){
+            System.out.println("v1: " + v1);
+            System.out.println("v2: " + v2);
+        }
         if (v1.length != v2.length) {
             throw new IllegalArgumentException("Vectors must have the same length");
         }
