@@ -14,8 +14,6 @@ public class NetworkDemonstrator {
         NeuralNetwork network = new NeuralNetwork(sizes);
         Vector aprym = new Vector(new ArrayList<>(Arrays.asList(3.0, 4.0)));
         Matrix a = new Matrix(new ArrayList<>(Arrays.asList(aprym)));
-        System.out.println(network.layers.size());
-        System.out.println(network.edges.size());
         FeedForward.feedForward(network, a);
 
     }

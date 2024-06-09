@@ -18,17 +18,10 @@ public class FeedForward {
             }
            Vector b = new Vector(wynik);
            Matrix w = net.edges.get(i).weights;
-           System.out.println(w);
-           System.out.println(i);
-           System.out.println(b);
-           System.out.println(a);
-           System.out.println(Matrix.multiply(a,w));
-           a= Sigmoid.sigmoidMatrix(Matrix.addVector(Matrix.Transpose(Matrix.multiply(a,w)), b));
+           a = Sigmoid.sigmoidMatrix(Matrix.addVector(Matrix.multiply(a, w), b));
 
 
         }
-
-        System.out.println(a.getClass());
         return a;
     }
  }

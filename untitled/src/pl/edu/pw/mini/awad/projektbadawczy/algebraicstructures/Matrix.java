@@ -99,19 +99,24 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    public static Matrix addVector(Matrix m, Vector v) {
-        if (m.rows != v.length) {
-            throw new IllegalArgumentException("Matrix and vector must have the same length");
-        }
-        Matrix t = Matrix.Transpose(m);
+    public static Matrix addVector(Matrix matrix, Vector v) {
+        Matrix m = Matrix.transpose(matrix);
         ArrayList<Vector> result = new ArrayList<>();
-        for (int i = 0; i < t.rows; i++) {
-            result.add(Vector.add(t.values.get(i), v));
+        int vectorIndex = 0;
+        for (int i = 0; i < m.rows; i++) {
+            ArrayList<Double> row = new ArrayList<>();
+            for (int j = 0; j < m.columns; j++) {
+                Double value = m.values.get(i).values.get(j);
+                value += v.values.get(vectorIndex);
+                row.add(value);
+                vectorIndex = (vectorIndex + 1) % v.length;
+            }
+            result.add(new Vector(row));
         }
-        return Matrix.Transpose(new Matrix(result));
+        return Matrix.transpose(new Matrix(result));
     }
 
-    public static Matrix Transpose (Matrix m) {
+    public static Matrix transpose (Matrix m) {
         ArrayList<Vector> result = new ArrayList<>();
         for (int i = 0; i < m.columns; i++) {
             ArrayList<Double> row = new ArrayList<>();
