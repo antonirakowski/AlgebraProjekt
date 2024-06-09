@@ -13,6 +13,5 @@ public class test {
         System.out.println(matrix1);
         System.out.println(vector2 + "\n");
         System.out.println(Matrix.addVector(matrix1, vector2));
-
     }
 }

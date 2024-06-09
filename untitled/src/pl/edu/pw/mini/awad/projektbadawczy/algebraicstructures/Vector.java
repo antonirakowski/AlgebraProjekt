@@ -122,6 +122,12 @@ public class Vector {
         return new Vector(result);
     }
 
+    public static Matrix toMatrix(Vector v) {
+        ArrayList<Vector> result = new ArrayList<>();
+        result.add(v);
+        return new Matrix(result);
+    }
+
     public String toString() {
         return values.toString();
     }
