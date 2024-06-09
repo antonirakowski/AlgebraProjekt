@@ -107,11 +107,16 @@ public class NeuralNetwork {
 
         network.layers.get(network.layers.size() - 1).setBiasesFromVector(delta);
 
-        //network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, Vector.dot(delta, activations.get(activations.size() - 2)));
-        for(int temp=0; temp<network.edges.size(); ++temp){
-            network.edges.get(network.edges.size() - 1).weights.values.set(temp, Vector.multiplyVector(delta, activations.get(activations.size() - 2)));
-        }
+
+
+        double help = Vector.dot(delta, activations.get(activations.size() - 2));
+        ArrayList<Double> help2 = new ArrayList<>(Collections.nCopies(network.edges.size(), help));
+        Vector valueToSet = new Vector(help2);
+
+        network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, valueToSet);
+
         //piece of shit above is wrong
+        // might be good now
 
 
         //network.edges.get(network.edges.size() - 1).weights.values.get(0).values.set(0, delta.values.get(0) * activations.get(activations.size() - 2).values.get(0));
@@ -128,10 +133,12 @@ public class NeuralNetwork {
 
 
             //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTO 0 ????
-            //edges.get(edges.size() - l - 1).weights.values.set(0, Vector.dot(delta , activations.get(activations.size() - l - 2)) );
-            for(int temp=0;temp<edges.size();++temp){
-                edges.get(edges.size() - l - 1).weights.values.set(0, Vector.multiplyVector(delta , activations.get(activations.size() - l - 2)) );
-            }
+            //edges.get(edges.size() - l - 1).weights.values.set(edges.size() - l - 1, Vector.dot(delta , activations.get(activations.size() - l - 2)) );
+            //better below :O
+            help = Vector.dot(delta, activations.get(activations.size() - l - 2));
+            help2 = new ArrayList<>(Collections.nCopies(network.edges.size(), help));
+            valueToSet = new Vector(help2);
+            edges.get(edges.size() - l - 1).weights.values.set(edges.size() - l - 1, valueToSet);
         }
 
         return network;
