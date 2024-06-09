@@ -84,6 +84,8 @@ public class Vector {
         }
         return new Vector(result);
     }
+
+    // Deprecated
     public static Vector multiplyVector(Vector v1, Vector v2) {
         if (v1.length != v2.length) {
             throw new IllegalArgumentException("Vectors must have the same length");

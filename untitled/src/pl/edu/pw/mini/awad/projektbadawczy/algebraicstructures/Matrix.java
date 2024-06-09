@@ -1,5 +1,6 @@
 package pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Matrix {
@@ -49,6 +50,38 @@ public class Matrix {
                     sum += m1.values.get(i).values.get(k) * m2.values.get(k).values.get(j);
                 }
                 row.add(sum);
+            }
+            result.add(new Vector(row));
+        }
+        return new Matrix(result);
+    }
+
+    public static Matrix dot(Double a, Matrix m) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.multiply(a, m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
+
+    public static Matrix addVector(Matrix m, Vector v) {
+        if (m.rows != v.length) {
+            throw new IllegalArgumentException("Matrix and vector must have the same length");
+        }
+        Matrix t = Matrix.Transpose(m);
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < t.rows; i++) {
+            result.add(Vector.add(t.values.get(i), v));
+        }
+        return Matrix.Transpose(new Matrix(result));
+    }
+
+    public static Matrix Transpose (Matrix m) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.columns; i++) {
+            ArrayList<Double> row = new ArrayList<>();
+            for (int j = 0; j < m.rows; j++) {
+                row.add(m.values.get(j).values.get(i));
             }
             result.add(new Vector(row));
         }
