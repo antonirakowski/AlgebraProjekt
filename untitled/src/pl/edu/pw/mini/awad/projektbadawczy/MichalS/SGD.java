@@ -21,7 +21,7 @@ public class SGD {
                 network.updateMiniBatch(miniBatch, eta);
             }
             if (TestData != null) {
-                System.out.println("Epoch " + j + ": " + Evaluate.evaluate(TestData) + " / " + TestData.size());
+                System.out.println("Epoch " + j + ": " + Evaluate.evaluate(network, TestData).toString() + " / " + TestData.size());
             } else {
                 System.out.println("Epoch " + j + " complete");
             }
