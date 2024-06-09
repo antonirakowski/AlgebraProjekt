@@ -70,7 +70,7 @@ public class NeuralNetwork {
 
     void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
         NeuralNetwork result = this.emptyCopy();
-        for (var trainingItem : trainingItems) {
+        for (TrainingItem trainingItem : trainingItems) {
             result = result.add(backprop(trainingItem));
         }
         result = result.multiplyByScalar(-eta/trainingItems.size());
@@ -111,13 +111,13 @@ public class NeuralNetwork {
         for (int l = 2; l < network.layers.size(); l++) {
             Vector z = zs.get(zs.size() - l);
             Vector sp = sigmoidPrime(z);
-            //delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l + 1).weights.values, delta), sp);
-            //layers.get(layers.size() - l).getBiasesInVector() = delta.values.get(0);
+            delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l).weights.values.get(edges.size() - l + 1), delta), sp);
+            layers.get(layers.size() - l).setBiasesFromVector(delta);
             //for (Neuron neuron : layers.get(layers.size() - l).neurons) {
             //    biases.add(neuron.bias);
-            //}
+            //} //useless?
 
-            //edges.get(edges.size() - l).weights.values.set(0, delta.values.get(0) * activations.get(activations.size() - l - 1).values.get(0));
+            edges.get(edges.size() - l - 1).weights.values.set(0, Vector.multiplyVector(delta , activations.get(activations.size() - l - 2)) );
         }
 
         //return network;
