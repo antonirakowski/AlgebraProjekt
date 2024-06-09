@@ -89,12 +89,13 @@ public class NeuralNetwork {
         List<Vector> zs = new ArrayList<>();
 
         for (int i = 0; i < layers.size(); i++) {
+            //branie biasów i wag
             Vector b = network.layers.get(i).getBiasesInVector();
+            Vector w = network.edges.get(i).weights.values.get(i); //czy to jest poprawne?
 
-            Vector w = network.edges.get(i).weights.values.get(i);
             Vector z = Vector.addScalar(Vector.dot(w, activation), b);
             zs.add(z);
-            activation = Sigmoid.sigmoidDerivativeVector(z);
+            activation = Sigmoid.sigmoidVector(z);
             activations.add(activation);
         }
 
@@ -105,23 +106,43 @@ public class NeuralNetwork {
         );
 
         network.layers.get(network.layers.size() - 1).setBiasesFromVector(delta);
-        network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, Vector.multiplyVector(delta, activations.get(activations.size() - 2)));
+
+
+
+        double help = Vector.dot(delta, activations.get(activations.size() - 2));
+        ArrayList<Double> help2 = new ArrayList<>(Collections.nCopies(network.edges.size(), help));
+        Vector valueToSet = new Vector(help2);
+
+        network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, valueToSet);
+
+        //piece of shit above is wrong
+        // might be good now
+
 
         //network.edges.get(network.edges.size() - 1).weights.values.get(0).values.set(0, delta.values.get(0) * activations.get(activations.size() - 2).values.get(0));
         for (int l = 2; l < network.layers.size(); l++) {
             Vector z = zs.get(zs.size() - l);
             Vector sp = sigmoidPrime(z);
-            delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l).weights.values.get(edges.size() - l + 1), delta), sp);
-            layers.get(layers.size() - l).setBiasesFromVector(delta);
+            delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l /*-1+1*/ ).weights.values.get(edges.size() - l + 1), delta), sp);
+            layers.get(layers.size() - l - 1).setBiasesFromVector(delta);
+
+            //useless loop?
             //for (Neuron neuron : layers.get(layers.size() - l).neurons) {
             //    biases.add(neuron.bias);
-            //} //useless?
+            //}
 
-            edges.get(edges.size() - l - 1).weights.values.set(0, Vector.multiplyVector(delta , activations.get(activations.size() - l - 2)) );
+
+            //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTO 0 ????
+            //edges.get(edges.size() - l - 1).weights.values.set(edges.size() - l - 1, Vector.dot(delta , activations.get(activations.size() - l - 2)) );
+            //better below :O
+            help = Vector.dot(delta, activations.get(activations.size() - l - 2));
+            help2 = new ArrayList<>(Collections.nCopies(network.edges.size(), help));
+            valueToSet = new Vector(help2);
+            edges.get(edges.size() - l - 1).weights.values.set(edges.size() - l - 1, valueToSet);
         }
 
-        //return network;
-        return this.emptyCopy();
+        return network;
+        //return this.emptyCopy();
     }
 
     private Vector sigmoidPrime(Vector z) {
