@@ -1,7 +1,7 @@
 package pl.edu.pw.mini.awad.projektbadawczy.network;
 
-import pl.edu.pw.mini.awad.projektbadawczy.Matrix;
-import pl.edu.pw.mini.awad.projektbadawczy.Vector;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Matrix;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Vector;
 
 import java.util.ArrayList;
 import java.util.Random;
