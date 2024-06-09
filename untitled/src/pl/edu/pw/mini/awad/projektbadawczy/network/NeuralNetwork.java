@@ -12,7 +12,7 @@ public class NeuralNetwork {
     public ArrayList<Layer> layers;
     public ArrayList<Edges> edges;
 
-    NeuralNetwork (ArrayList<Integer> sizes) {
+    public NeuralNetwork (ArrayList<Integer> sizes) {
         ArrayList<Layer> layers = new ArrayList<>();
         for (int i = 0; i < sizes.size(); i++) {
             layers.add(new Layer(sizes.get(i)));
