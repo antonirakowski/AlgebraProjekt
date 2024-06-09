@@ -10,15 +10,12 @@ public class Layer {
         this.neurons = neurons;
     }
 
-    public Layer(int size, boolean isRandom) {
+    public Layer(int size) {
         ArrayList<Neuron> neurons = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             double value = 0;
-            if (isRandom) {
-                value = random.nextDouble();
-            }
-            neurons.add(new Neuron(value));
+            neurons.add(new Neuron(random.nextDouble()));
         }
         this.neurons = neurons;
     }
