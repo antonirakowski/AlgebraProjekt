@@ -7,8 +7,8 @@ import pl.edu.pw.mini.awad.projektbadawczy.dataloader.TrainingItem;
 import java.util.*;
 
 public class NeuralNetwork {
-    private ArrayList<Layer> layers;
-    private ArrayList<Edges> edges;
+    public ArrayList<Layer> layers;
+    public ArrayList<Edges> edges;
 
     NeuralNetwork (ArrayList<Integer> sizes) {
         ArrayList<Layer> layers = new ArrayList<>();
