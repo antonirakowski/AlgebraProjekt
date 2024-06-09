@@ -10,10 +10,12 @@ import java.util.Arrays;
 
 public class NetworkDemonstrator {
     public static void main(String[] args) {
-        ArrayList<Integer> sizes = new ArrayList<>(Arrays.asList(2, 3, 1));
+        ArrayList<Integer> sizes = new ArrayList<>(Arrays.asList(2, 3, 1,3,4,6));
         NeuralNetwork network = new NeuralNetwork(sizes);
         Vector aprym = new Vector(new ArrayList<>(Arrays.asList(3.0, 4.0)));
         Matrix a = new Matrix(new ArrayList<>(Arrays.asList(aprym)));
+        System.out.println(network.layers.size());
+        System.out.println(network.edges.size());
         FeedForward.feedForward(network, a);
 
     }
