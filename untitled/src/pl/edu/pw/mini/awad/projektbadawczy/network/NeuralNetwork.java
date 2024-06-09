@@ -31,18 +31,26 @@ public class NeuralNetwork {
     NeuralNetwork emptyCopy() {
         ArrayList<Layer> layers = new ArrayList<>();
         for (int i = 0; i < this.layers.size(); i++) {
-            int size = this.layers.get(i).neurons.size();
-            Layer layer = new Layer(size);
-            for (var neuron : layer.neurons) {
-                neuron.bias = 0;
-            }
-            layers.add(layer);
+            layers.add(new Layer(this.layers.get(i).neurons.size(), 0));
         }
-        ArrayList<Edges> edges = new ArrayList<>();
+        ArrayList<Edges> edgesSet = new ArrayList<>();
         for (int i = 0; i < layers.size() - 1; i++) {
-            edges.add(new Edges(layers.get(i), layers.get(i + 1)));
+            Edges edges = new Edges(layers.get(i), layers.get(i + 1), 0);
+            edgesSet.add(edges);
         }
-        return new NeuralNetwork(layers, edges);
+        return new NeuralNetwork(layers, edgesSet);
+    }
+
+    public NeuralNetwork add(NeuralNetwork other) {
+        ArrayList<Layer> layers = new ArrayList<>();
+        for (int i = 0; i < this.layers.size(); i++) {
+            layers.add(this.layers.get(i).add(other.layers.get(i)));
+        }
+        ArrayList<Edges> edgesSet = new ArrayList<>();
+        for (int i = 0; i < layers.size() - 1; i++) {
+            edgesSet.add(this.edges.get(i).add(other.edges.get(i)));
+        }
+        return new NeuralNetwork(layers, edgesSet);
     }
 
 //    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
