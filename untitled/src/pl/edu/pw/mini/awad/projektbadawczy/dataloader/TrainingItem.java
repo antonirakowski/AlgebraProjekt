@@ -1,7 +1,6 @@
 package pl.edu.pw.mini.awad.projektbadawczy.dataloader;
 
-import java.util.ArrayList;
-import java.util.Vector;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Vector;
 
 public class TrainingItem {
     public Vector input;

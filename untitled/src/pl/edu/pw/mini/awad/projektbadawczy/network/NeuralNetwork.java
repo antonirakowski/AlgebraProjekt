@@ -1,10 +1,12 @@
-
-
 package pl.edu.pw.mini.awad.projektbadawczy.network;
 
+import pl.edu.pw.mini.awad.projektbadawczy.MichalS.Sigmoid;
+import pl.edu.pw.mini.awad.projektbadawczy.algebraicstructures.Vector;
 import pl.edu.pw.mini.awad.projektbadawczy.dataloader.TrainingItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NeuralNetwork {
     public ArrayList<Layer> layers;
@@ -31,18 +33,26 @@ public class NeuralNetwork {
     NeuralNetwork emptyCopy() {
         ArrayList<Layer> layers = new ArrayList<>();
         for (int i = 0; i < this.layers.size(); i++) {
-            int size = this.layers.get(i).neurons.size();
-            Layer layer = new Layer(size);
-            for (var neuron : layer.neurons) {
-                neuron.bias = 0;
-            }
-            layers.add(layer);
+            layers.add(new Layer(this.layers.get(i).neurons.size(), 0));
         }
-        ArrayList<Edges> edges = new ArrayList<>();
+        ArrayList<Edges> edgesSet = new ArrayList<>();
         for (int i = 0; i < layers.size() - 1; i++) {
-            edges.add(new Edges(layers.get(i), layers.get(i + 1)));
+            Edges edges = new Edges(layers.get(i), layers.get(i + 1), 0);
+            edgesSet.add(edges);
         }
-        return new NeuralNetwork(layers, edges);
+        return new NeuralNetwork(layers, edgesSet);
+    }
+
+    public NeuralNetwork add(NeuralNetwork other) {
+        ArrayList<Layer> layers = new ArrayList<>();
+        for (int i = 0; i < this.layers.size(); i++) {
+            layers.add(this.layers.get(i).add(other.layers.get(i)));
+        }
+        ArrayList<Edges> edgesSet = new ArrayList<>();
+        for (int i = 0; i < layers.size() - 1; i++) {
+            edgesSet.add(this.edges.get(i).add(other.edges.get(i)));
+        }
+        return new NeuralNetwork(layers, edgesSet);
     }
 
 //    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
@@ -51,10 +61,53 @@ public class NeuralNetwork {
 //        }
 //    }
 
-    NeuralNetwork backprop(TrainingItem item) {
+    public NeuralNetwork backprop(TrainingItem item) {
         NeuralNetwork network = this.emptyCopy(); //kopiuje szkielet
 
-        return network;
+        //feedforward
+        Vector activation = item.input;
+        List<Vector> activations = new ArrayList<>();
+        activations.add(item.input);
+        List<Vector> zs = new ArrayList<>();
+
+        for (int i = 0; i < layers.size(); i++) {
+            Vector b = network.layers.get(i).getBiasesInVector();
+
+            Vector w = network.edges.get(i).weights.values.get(i);
+            Vector z = Vector.addScalar(Vector.dot(w, activation), b);
+            zs.add(z);
+            activation = Sigmoid.sigmoidDerivativeVector(z);
+            activations.add(activation);
+        }
+
+        // backward pass
+        Vector delta = Vector.multiplyVector(
+                Vector.subtract( activations.get(activations.size() - 1), item.output), // item.output = y
+                sigmoidPrime(zs.get(zs.size() - 1))
+        );
+
+        network.layers.get(network.layers.size() - 1).setBiasesFromVector(delta);
+        network.edges.get(network.edges.size() - 1).weights.values.set(network.edges.size() - 1, Vector.multiplyVector(delta, activations.get(activations.size() - 2)));
+
+        //network.edges.get(network.edges.size() - 1).weights.values.get(0).values.set(0, delta.values.get(0) * activations.get(activations.size() - 2).values.get(0));
+        for (int l = 2; l < network.layers.size(); l++) {
+            Vector z = zs.get(zs.size() - l);
+            Vector sp = sigmoidPrime(z);
+            //delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l + 1).weights.values, delta), sp);
+            //layers.get(layers.size() - l).getBiasesInVector() = delta.values.get(0);
+            //for (Neuron neuron : layers.get(layers.size() - l).neurons) {
+            //    biases.add(neuron.bias);
+            //}
+
+            //edges.get(edges.size() - l).weights.values.set(0, delta.values.get(0) * activations.get(activations.size() - l - 1).values.get(0));
+        }
+
+        //return network;
+        return this.emptyCopy();
+    }
+
+    private Vector sigmoidPrime(Vector z) {
+        return Vector.multiplyVector(Sigmoid.sigmoidDerivativeVector(z),Vector.substractScalarLeft(1.0, Sigmoid.sigmoidVector(z)));
     }
 
 }
