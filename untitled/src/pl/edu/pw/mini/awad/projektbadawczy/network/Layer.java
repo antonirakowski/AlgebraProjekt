@@ -29,10 +29,14 @@ public class Layer {
     }
 
     public Layer add(Layer layer) {
-        ArrayList<Neuron> neurons = new ArrayList<Neuron>();
-        for (int i = 0; i < layer.neurons.size(); i++) {
-            neurons.add(this.neurons.get(i).add(layer.neurons.get(i)));
+        return null;
+    }
+
+    public Layer multiplyByScalar(double scalar) {
+        ArrayList<Neuron> neurons = new ArrayList<>();
+        for (Neuron neuron : this.neurons) {
+            neurons.add(neuron.multiplyByScalar(scalar));
         }
-        return new Layer(neurons);
+        return  new Layer(neurons);
     }
 }
