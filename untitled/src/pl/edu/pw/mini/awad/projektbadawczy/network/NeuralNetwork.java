@@ -92,7 +92,9 @@ public class NeuralNetwork {
             //branie biasów i wag
             Vector b = network.layers.get(i).getBiasesInVector();
             Vector w = network.edges.get(i).weights.values.get(i); //czy to jest poprawne?
-
+            System.out.println(i);
+            System.out.println("w: " + w.length);
+            System.out.println("activation: " + activation.length);
             Vector z = Vector.addScalar(Vector.dot(w, activation), b);
             zs.add(z);
             activation = Sigmoid.sigmoidVector(z);
@@ -101,7 +103,7 @@ public class NeuralNetwork {
 
         // backward pass
         Vector delta = Vector.multiplyVector(
-                Vector.subtract( activations.get(activations.size() - 1), item.output), // item.output = y
+                Vector.addScalar((double) item.output,activations.get(activations.size() - 1)), // item.output = y
                 sigmoidPrime(zs.get(zs.size() - 1))
         );
 
