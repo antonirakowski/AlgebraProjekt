@@ -96,6 +96,21 @@ public class Vector {
         }
         return new Vector(result);
     }
+
+    public static Integer argMax(Vector v) {
+        Double max = Double.NEGATIVE_INFINITY;
+        Integer index = 0;
+        Integer iter = 0;
+        for (Double val : v.values) {
+            if (val > max) {
+                max = val;
+                index = iter;
+            }
+            iter++;
+        }
+        return index;
+    }
+
     public String toString() {
         return values.toString();
     }

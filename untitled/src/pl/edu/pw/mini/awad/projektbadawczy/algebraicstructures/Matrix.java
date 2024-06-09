@@ -137,4 +137,8 @@ public class Matrix {
         return s;
 
     }
+
+    public static Vector matrixToVector(Matrix m) {
+        return m.values.get(0);
+    }
 }
