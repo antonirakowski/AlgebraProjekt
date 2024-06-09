@@ -1,5 +1,4 @@
 package pl.edu.pw.mini.awad.projektbadawczy.network;
-import java.util.*;
 
 public class Neuron {
     public double bias;
@@ -9,6 +8,10 @@ public class Neuron {
     }
 
     public Neuron add(Neuron neuron) {
-        return  new Neuron(this.bias + neuron.bias);
+        return new Neuron(this.bias + neuron.bias);
+    }
+
+    public Neuron multiplyByScalar(double scalar) {
+        return new Neuron(this.bias * scalar);
     }
 }

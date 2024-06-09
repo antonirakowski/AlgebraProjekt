@@ -41,4 +41,8 @@ public class Edges {
     public Edges add(Edges edges) {
         return new Edges(Matrix.add(weights, edges.weights));
     }
+
+    public Edges multiplyByScalar(double scalar) {
+        return new Edges(Matrix.dot(scalar, weights));
+    }
 }

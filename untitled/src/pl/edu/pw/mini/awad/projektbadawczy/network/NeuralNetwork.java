@@ -55,11 +55,29 @@ public class NeuralNetwork {
         return new NeuralNetwork(layers, edgesSet);
     }
 
-//    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
-//        for (var trainingItem : trainingItems) {
-//
-//        }
-//    }
+
+    public NeuralNetwork multiplyByScalar(double scalar) {
+        ArrayList<Layer> layers = new ArrayList<>();
+        for (Layer layer : this.layers) {
+            layers.add(layer.multiplyByScalar(scalar));
+        }
+        ArrayList<Edges> edgesSet = new ArrayList<>();
+        for (int i = 0; i < layers.size() - 1; i++) {
+            edgesSet.add(this.edges.get(i).multiplyByScalar(scalar));
+        }
+        return new NeuralNetwork(layers, edgesSet);
+    }
+
+    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
+        NeuralNetwork result = this.emptyCopy();
+        for (TrainingItem trainingItem : trainingItems) {
+            result = result.add(backprop(trainingItem));
+        }
+        result = result.multiplyByScalar(-eta/trainingItems.size());
+        result = this.add(result);
+        this.edges = result.edges;
+        this.layers = result.layers;
+    }
 
     public NeuralNetwork backprop(TrainingItem item) {
         NeuralNetwork network = this.emptyCopy(); //kopiuje szkielet
@@ -93,13 +111,13 @@ public class NeuralNetwork {
         for (int l = 2; l < network.layers.size(); l++) {
             Vector z = zs.get(zs.size() - l);
             Vector sp = sigmoidPrime(z);
-            //delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l + 1).weights.values, delta), sp);
-            //layers.get(layers.size() - l).getBiasesInVector() = delta.values.get(0);
+            delta = Vector.multiply(Vector.dot(edges.get(edges.size() - l).weights.values.get(edges.size() - l + 1), delta), sp);
+            layers.get(layers.size() - l).setBiasesFromVector(delta);
             //for (Neuron neuron : layers.get(layers.size() - l).neurons) {
             //    biases.add(neuron.bias);
-            //}
+            //} //useless?
 
-            //edges.get(edges.size() - l).weights.values.set(0, delta.values.get(0) * activations.get(activations.size() - l - 1).values.get(0));
+            edges.get(edges.size() - l - 1).weights.values.set(0, Vector.multiplyVector(delta , activations.get(activations.size() - l - 2)) );
         }
 
         //return network;
