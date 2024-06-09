@@ -9,20 +9,21 @@ import java.util.ArrayList;
 
 
 public class FeedForward {
-    public static Vector feedForward(NeuralNetwork net, Vector c) {
+    public static Matrix feedForward(NeuralNetwork net, Matrix a) {
         for (int i=0; i<net.layers.size()-1; i++){
-            ArrayList<Neuron> neurony = net.layers.get(i).neurons;
+            ArrayList<Neuron> neurony = net.layers.get(i+1).neurons;
             ArrayList<Double> wynik = new ArrayList<>();
             for (Neuron neuron : neurony) {
                 wynik.add(neuron.bias);
             }
            Vector b = new Vector(wynik);
            Matrix w = net.edges.get(i).weights;
-           c= Sigmoid.sigmoidVector(c);
-
+           a= Sigmoid.sigmoidMatrix(Matrix.addVector(Matrix.multiply(a,w),b));
+            System.out.println(a+"1");
 
         }
 
-        return c;
+        System.out.println(a.getClass());
+        return a;
     }
  }

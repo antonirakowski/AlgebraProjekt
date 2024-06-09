@@ -35,6 +35,42 @@ public class Matrix {
         }
         return new Matrix(result);
     }
+    public static Matrix exp(Matrix m) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.exp(m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
+    public static Matrix multiplyScalar(Matrix m, Double a) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.multiply(a, m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
+    public static Matrix divideScalar(Matrix m, Double a) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.divideScalar(a, m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
+    public static Matrix addScalar(Matrix m, Double a) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.addScalar(a, m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
+
+    public static Matrix substractScalarLeft(Double a, Matrix m) {
+        ArrayList<Vector> result = new ArrayList<>();
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.substractScalarLeft(a, m.values.get(i)));
+        }
+        return new Matrix(result);
+    }
 
     public static Matrix multiply(Matrix m1, Matrix m2) {
         if (m1.columns != m2.rows) {
@@ -64,13 +100,13 @@ public class Matrix {
     }
 
     public static Matrix addVector(Matrix m, Vector v) {
-        if (m.rows != v.length) {
+        if (m.columns != v.length) {
             throw new IllegalArgumentException("Matrix and vector must have the same length");
         }
         Matrix t = Matrix.Transpose(m);
         ArrayList<Vector> result = new ArrayList<>();
-        for (int i = 0; i < t.rows; i++) {
-            result.add(Vector.add(t.values.get(i), v));
+        for (int i = 0; i < m.rows; i++) {
+            result.add(Vector.add(m.values.get(i), v));
         }
         return Matrix.Transpose(new Matrix(result));
     }
