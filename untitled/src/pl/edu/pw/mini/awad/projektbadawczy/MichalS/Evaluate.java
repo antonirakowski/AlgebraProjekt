@@ -11,11 +11,11 @@ import java.util.Objects;
 public class Evaluate {
     public static Integer evaluate(NeuralNetwork network, ArrayList<TrainingItem> testData){
         int sum = 0;
-        for (var testItem : testData) {
+        for (TrainingItem testItem : testData) {
             ArrayList<Vector> input = new ArrayList<Vector>();// TODO czy to jest dobrze
             input.add(testItem.input);
             Matrix myOutput = FeedForward.feedForward(network, new Matrix(input));
-            if (Vector.argMax(Matrix.matrixToVector(myOutput)).doubleValue() == testItem.output.values.getFirst()) {
+            if (Vector.argMax(Matrix.matrixToVector(myOutput)) == testItem.output) {
                 //TODO getFirst bierze pierwszą wartość bo wektor powinien być 1x1
                 sum += 1;
             }
