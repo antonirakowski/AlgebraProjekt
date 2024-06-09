@@ -14,9 +14,25 @@ public class Layer {
         ArrayList<Neuron> neurons = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < size; i++) {
-            double value = 0;
             neurons.add(new Neuron(random.nextDouble()));
         }
         this.neurons = neurons;
+    }
+
+    public Layer(int size, double value) {
+        ArrayList<Neuron> neurons = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            neurons.add(new Neuron(value));
+        }
+        this.neurons = neurons;
+    }
+
+    public Layer add(Layer layer) {
+        ArrayList<Neuron> neurons = new ArrayList<Neuron>();
+        for (int i = 0; i < layer.neurons.size(); i++) {
+            neurons.add(this.neurons.get(i).add(layer.neurons.get(i)));
+        }
+        return new Layer(neurons);
     }
 }

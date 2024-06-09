@@ -8,4 +8,7 @@ public class Neuron {
         this.bias = bias;
     }
 
+    public Neuron add(Neuron neuron) {
+        return  new Neuron(this.bias + neuron.bias);
+    }
 }

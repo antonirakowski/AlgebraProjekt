@@ -33,18 +33,26 @@ public class NeuralNetwork {
     NeuralNetwork emptyCopy() {
         ArrayList<Layer> layers = new ArrayList<>();
         for (int i = 0; i < this.layers.size(); i++) {
-            int size = this.layers.get(i).neurons.size();
-            Layer layer = new Layer(size);
-            for (var neuron : layer.neurons) {
-                neuron.bias = 0;
-            }
-            layers.add(layer);
+            layers.add(new Layer(this.layers.get(i).neurons.size(), 0));
         }
-        ArrayList<Edges> edges = new ArrayList<>();
+        ArrayList<Edges> edgesSet = new ArrayList<>();
         for (int i = 0; i < layers.size() - 1; i++) {
-            edges.add(new Edges(layers.get(i), layers.get(i + 1)));
+            Edges edges = new Edges(layers.get(i), layers.get(i + 1), 0);
+            edgesSet.add(edges);
         }
-        return new NeuralNetwork(layers, edges);
+        return new NeuralNetwork(layers, edgesSet);
+    }
+
+    public NeuralNetwork add(NeuralNetwork other) {
+        ArrayList<Layer> layers = new ArrayList<>();
+        for (int i = 0; i < this.layers.size(); i++) {
+            layers.add(this.layers.get(i).add(other.layers.get(i)));
+        }
+        ArrayList<Edges> edgesSet = new ArrayList<>();
+        for (int i = 0; i < layers.size() - 1; i++) {
+            edgesSet.add(this.edges.get(i).add(other.edges.get(i)));
+        }
+        return new NeuralNetwork(layers, edgesSet);
     }
 
 //    void updateMiniBatch(ArrayList<TrainingItem> trainingItems, double eta) {
@@ -63,7 +71,7 @@ public class NeuralNetwork {
         List<Vector> zs = new ArrayList<>();
 
         for (int i = 0; i < layers.size(); i++) {
-            Vector b = network.layers.get(i).neurons.;
+            Vector b = network.layers.get(i).neurons.\;
             Vector w = network.edges.weights.values.get(i);
             Vector z = Vector.addScalar(Vector.dot(w, activation), b);
             zs.add(z);
@@ -76,18 +84,13 @@ public class NeuralNetwork {
                 Vector.subtract( activations.get(activations.size() - 1), item.output), // item.output = y
                 sigmoidPrime(zs.get(zs.size() - 1))
         );
-
         network.layers.get(network.layers.size() - 1).neurons.get(0).bias = delta.values.get(0);
         network.edges.weights.get(network.edges.weights.size() - 1).values.get(0).values.set(0, delta.values.get(0) * activations.get(activations.size() - 2).values.get(0));
-
-
         for (int l = 2; l < network.layers.size(); l++) {
             Vector z = zs.get(zs.size() - l);
             Vector sp = sigmoidPrime(z);
             Vector delta = Vector.multiply(Vector.dot(weights.get(weights.size() - l + 1), delta), sp);
-            //nabla_b . set(nabla_b.size() - l, delta);
             layers.get(layers.size() - l).neurons.get(0).bias = delta.values.get(0);
-            //nabla_w.set(nabla_w.size() - l, outerProduct(delta, activations.get(activations.size() - l - 1)));
             edges.weights.get(weights.size() - l).set(0, delta.values.get(0) * activations.get(activations.size() - l - 1).values.get(0));
         }
 
