@@ -111,6 +111,17 @@ public class Vector {
         return index;
     }
 
+    public static Vector hadamard(Vector v1, Vector v2) {
+        if (v1.values.size() != v2.values.size()) {
+            throw new IllegalArgumentException("Vectors must have the same length");
+        }
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < v1.values.size(); i++) {
+            result.add(v1.values.get(i) * v2.values.get(i));
+        }
+        return new Vector(result);
+    }
+
     public String toString() {
         return values.toString();
     }
