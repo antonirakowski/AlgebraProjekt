@@ -9,7 +9,7 @@ import java.util.Random;
 public class Edges {
     final Layer layer1;
     final Layer layer2;
-    final Matrix weights;
+    public final Matrix weights;
 
     public Edges(Layer layer1, Layer layer2) {
         this.layer1 = layer1;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Layer {
-    ArrayList<Neuron> neurons;
+    public ArrayList<Neuron> neurons;
 
     public Layer(ArrayList<Neuron> neurons) {
         this.neurons = neurons;
