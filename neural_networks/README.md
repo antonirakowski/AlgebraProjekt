@@ -1,2 +1,4 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+### To run
+./dart run
+if doesn't work try
+./dart run bin/neural-networks.dart
